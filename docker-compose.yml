@@ -5,7 +5,7 @@ services:
       - "5672:5672"
       - "15672:15672"
   manager:
-    image: rabbitmq-manager:0.0.1-SNAPSHOT
+    image: mymanager
     ports:
       - "8080:8080"
     environment:
