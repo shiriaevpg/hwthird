@@ -1,0 +1,20 @@
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  manager:
+    image: rabbitmq-manager:0.0.1-SNAPSHOT
+    ports:
+      - "8080:8080"
+    environment:
+      spring.rabbitmq.host: rabbitmq
+    depends_on:
+      - rabbitmq
+  worker:
+    image: rabbitmq-worker:0.0.1-SNAPSHOT
+    environment:
+      spring.rabbitmq.host: rabbitmq
+    depends_on:
+      - rabbitmq
