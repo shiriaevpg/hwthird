@@ -13,7 +13,7 @@ services:
     depends_on:
       - rabbitmq
   worker:
-    image: rabbitmq-worker:0.0.1-SNAPSHOT
+    image: myworker
     environment:
       spring.rabbitmq.host: rabbitmq
     depends_on:
