@@ -50,7 +50,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>hwthird.manager.ManagerApplication</mainClass>
+                    <mainClass>hw.third.manager.ManagerApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
