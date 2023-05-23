@@ -1,5 +1,6 @@
 package hw.third.manager;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import io.micrometer.core.instrument.Counter;
 
 import java.util.Random;
 
@@ -16,16 +18,19 @@ public class ManagerController {
     private final RabbitTemplate rabbitTemplate;
 
     private final Random random;
+    private final Counter tasks;
 
     @Autowired
-    ManagerController(RabbitTemplate rabbitTemplate) {
+    ManagerController(RabbitTemplate rabbitTemplate, MeterRegistry meterRegistry) {
         this.rabbitTemplate = rabbitTemplate;
         this.random = new Random();
+        tasks = meterRegistry.counter("tasks_sender_total");
     }
 
      @GetMapping("/createTask")
 //    @PostMapping("/createManagerTask")
     void createTask(int times) {
+        tasks.increment();
         rabbitTemplate.convertAndSend(BrokerConfiguration.TOPIC_NAME1, times);
         log.info("\n");
     }

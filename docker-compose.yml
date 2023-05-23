@@ -14,7 +14,15 @@ services:
       - rabbitmq
   worker:
     image: myworker
+    ports:
+      - "8081:8081"
     environment:
       spring.rabbitmq.host: rabbitmq
     depends_on:
       - rabbitmq
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    ports:
+        - "9090:9090"
+    volumes:
+        - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
